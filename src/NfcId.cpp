@@ -44,12 +44,22 @@ void NfcId::initialize() {
 		qDebug() << "N F C   Registered for NFC BPS events OK";
 		subscribe(nfc_get_domain());
 	}
+	nfc_register_tag_readerwriter(TAG_TYPE_ALL);
+
+//  or one of or combinations of ..
+//  nfc_register_tag_readerwriter(TAG_TYPE_ISO_14443_3);
+//  nfc_register_tag_readerwriter(TAG_TYPE_ISO_14443_4);
+//  nfc_register_tag_readerwriter(TAG_TYPE_NDEF);
+//  nfc_register_tag_readerwriter(TAG_TYPE_ISO_15693_3);
+//  nfc_register_tag_readerwriter(TAG_TYPE_ISO_18092);
+
 	qDebug() << "N F C   NfcId::initialize() ends...";
 }
 
 // clean up code
 void NfcId::terminate() {
 	qDebug() << "N F C   NfcId::terminate entered ...";
+    nfc_unregister_tag_readerwriter();
 	nfc_stop_events();
 	unsubscribe(nfc_get_domain());
 	bps_shutdown();
